@@ -1,0 +1,44 @@
+﻿@using Lesson3.Model
+
+@model List<Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <h2>Список продуктов</h2>
+    
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Категория</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>@product.Category</td>
+                        <td>
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@product.Id">Подробнее</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Нет доступных продуктов.</p>
+    }
+</div>

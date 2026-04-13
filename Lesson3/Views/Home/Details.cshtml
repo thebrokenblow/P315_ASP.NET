@@ -1,0 +1,100 @@
+﻿@using Lesson3.Model
+
+@model Product
+
+@{
+    ViewData["Title"] = "Детали продукта";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3>@Model.Name</h3>
+                </div>
+                <div class="card-body">                    
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Категория:</div>
+                        <div class="col-md-9">
+                            <span class="badge bg-secondary">@Model.Category</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Цена:</div>
+                        <div class="col-md-9">
+                            <span class="text-success fw-bold fs-4">@Model.Price.ToString("C")</span>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Описание:</div>
+                        <div class="col-md-9">@Model.Description</div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Количество на складе:</div>
+                        <div class="col-md-9">
+                            @if (Model.Quantity > 0)
+                            {
+                                <span class="text-success">@Model.Quantity шт. (В наличии)</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Нет в наличии</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-success float-end">
+                        🛒 Добавить в корзину
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5>Дополнительная информация</h5>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <strong>Статус:</strong>
+                        @if (Model.Quantity > 0)
+                        {
+                            <span class="text-success">● В наличии</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger">● Нет в наличии</span>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        font-weight: bold;
+    }
+    
+    .breadcrumb {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    
+    .fw-bold {
+        font-weight: 600;
+    }
+</style>
