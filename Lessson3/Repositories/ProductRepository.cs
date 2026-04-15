@@ -61,4 +61,20 @@ public class ProductRepository
 
         return product;
     }
+
+    public void Create(Product product)
+    {
+        product.Id = _nextId++;
+        _products.Add(product);
+    }
+
+    public void DeleteById(int id)
+    {
+        var product = _products.FirstOrDefault(x => x.Id == id);
+
+        if (product != null)
+        {
+            _products.Remove(product);
+        }
+    }
 }

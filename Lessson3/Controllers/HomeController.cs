@@ -1,16 +1,36 @@
+using Lesson3.Models;
 using Lesson3.Repositories;
-using Lessson3.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace Lesson3.Controllers;
 
-public class HomeController(ProductRepository productRepository) : Controller
+public class HomeController(ProductRepository productRepository, IServiceProvider serviceProvider) : Controller
 {
+    private const string SuffixController = "Controller";
+
     public IActionResult Index()
     {
         var products = productRepository.GetAll();
+
         return View(products);
+    }
+
+    public IActionResult Create()
+    {
+        var product = new Product();
+        product.Description = "123wefgvwergfwer";
+        return View(product);
+    }
+
+    [HttpPost]
+    public IActionResult Create(Product product)
+    {
+        productRepository.Create(product);
+
+        var nameAction = nameof(HomeController.Index);
+        var nameController = GetControllerName(nameof(HomeController));
+
+        return RedirectToAction(nameAction, nameController);
     }
 
     public IActionResult Details(int id)
@@ -19,9 +39,18 @@ public class HomeController(ProductRepository productRepository) : Controller
         return View(product);
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Delete(int id)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        productRepository.DeleteById(id);
+
+        var nameAction = nameof(HomeController.Index);
+        var nameController = GetControllerName(nameof(HomeController));
+
+        return RedirectToAction(nameAction, nameController);
+    }
+
+    private static string GetControllerName(string nameController)
+    {
+        return nameController.Replace(SuffixController, string.Empty);
     }
 }
